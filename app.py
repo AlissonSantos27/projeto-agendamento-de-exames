@@ -6,6 +6,7 @@ from funcoes import salvar_agendamento, carregar_dados
 st.set_page_config(page_title="Agendamento de Exames", layout="centered")
 st.title("📋 Agendamento de Exames Médicos")
 df = carregar_dados()
+
 # Formulário
 st.header("➕ Novo Agendamento")
 with st.form("form_agendamento"):
@@ -26,29 +27,30 @@ with st.form("form_agendamento"):
       elif not data_valida:  
         st.error("⚠️ Não é permitido agendar para datas passadas.")  
       else:  
-        nome_normalizado = nome.strip().lower()  
-        exame_normalizado = exame.strip().lower()  
+        nome_norm = nome.strip().lower()  
+        exame_norm = exame.strip().lower()  
 
         if not df.empty:  
           df["Data_Agendada"] = pd.to_datetime(df["Data_Agendada"], errors="coerce")  
           df["Nome_Normalizado"] = df["Nome"].str.strip().str.lower()  
           df["Exame_Normalizado"] = df["Exame"].str.strip().str.lower()  
 
-          # Verifica se já existe mesmo nome, mesmo exame, mesma data  
-          conflito = df[  
-                (df["Nome_Normalizado"] == nome_normalizado) &  
-                (df["Exame_Normalizado"] == exame_normalizado) &  
-                (df["Data_Agendada"].dt.date == data_agendada)  
-            ]  
+          # 🧠 Usando filter + lambda para buscar conflitos (nome + exame + data)
+          conflito = list(filter(lambda row: 
+            row["Nome_Normalizado"] == nome_norm and 
+            row["Exame_Normalizado"] == exame_norm and 
+            row["Data_Agendada"].date() == data_agendada, df.to_dict("records")))
 
-          if not conflito.empty:  
+          if conflito:  
             st.warning("⚠️ Este paciente já possui este exame agendado para esta data.")  
           else:  
-            agendamentos_do_dia = df[df["Data_Agendada"].dt.date == data_agendada].shape[0]  
+            #Verifica se já existem 5 agendamentos na mesma data
+            agendamentos_do_dia = df[df["Data_Agendada"].dt.date == data_agendada]
 
-            if agendamentos_do_dia >= 5:  
+            if len(agendamentos_do_dia) >= 5:  
               st.warning("⚠️ Limite de 5 agendamentos atingido para esta data. Escolha outro dia.")  
-            else:  
+            else: 
+              # Primeiro agendamento do sistema 
               try:  
                 salvar_agendamento(nome.strip(), exame, data_agendada)  
                 st.success(f"✅ Agendamento salvo com sucesso em {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")  
@@ -69,14 +71,21 @@ with st.form("form_agendamento"):
 # Exibir agendamentos salvos
 st.header("📅 Agendamentos Registrados")
 df = carregar_dados()
-
+df["Data_Agendada"] = pd.to_datetime(df["Data_Agendada"], errors="coerce")
 data_filtro = st.date_input("🔍 Filtrar por data agendada", value=date.today())
+
+#data_filtro = st.date_input("🔍 Filtrar por data agendada", value=date.today())
 # Filtrar os dados
-filtrados = df[df["Data_Agendada"].dt.date == data_filtro]
+#filtrados = df[df["Data_Agendada"].dt.date == data_filtro]
+
+filtrados = pd.DataFrame([
+linha for _, linha in df.iterrows()
+if linha["Data_Agendada"].date() == data_filtro])
 
 # Exibir resultados
 st.subheader(f"📆 Agendamentos em {data_filtro.strftime('%d/%m/%Y')}")
 if not filtrados.empty:
-    st.dataframe(filtrados)
+    st.dataframe(filtrados.drop(columns=["Nome_Normalizado", "Exame_Normalizado"], errors="ignore"))
 else:
     st.info("Nenhum agendamento para a data selecionada.")
+
