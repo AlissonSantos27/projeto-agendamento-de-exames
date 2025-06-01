@@ -21,7 +21,7 @@ Este é um sistema simples de agendamento de exames médicos, desenvolvido com o
 git clone https://github.com/AlissonSantos27/projeto-agendamento-de-exames.git
 cd projeto-agendamento-de-exames
 
-## 2. Crie um abiente virtual
+2. **Crie um abiente virtual**
 
 python -m venv venv
 source venv/bin/activate    # Linux/macOS
