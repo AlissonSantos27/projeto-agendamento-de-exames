@@ -10,7 +10,7 @@ df = carregar_dados()
 # Formulário
 st.header("➕ Novo Agendamento")
 with st.form("form_agendamento"):
-    nome = st.text_input("Nome do paciente")
+    nome = st.text_input("Nome do paciente").upper()
     exame = st.selectbox("Exame", ["ECG", "Raio X", "Mamografia", "Laboratório", "USG", "Colonoscopia"])
     data_agendada = st.date_input("Data desejada para o exame", min_value=date.today())
     enviar = st.form_submit_button("Salvar Agendamento")
