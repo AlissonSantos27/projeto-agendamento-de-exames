@@ -1,6 +1,6 @@
 # 🏥 Projeto de Agendamento de Exames
 
-Este é um sistema simples de agendamento de exames médicos, desenvolvido com o objetivo de facilitar o cadastro de pacientes e a organização de exames em uma clínica ou laboratório.
+Este é um sistema simples de agendamento de exames médicos, desenvolvido com o objetivo de facilitar o cadastro de pacientes e a organização de exames em uma clínica ou laboratório. Desenvolvido a partir de observações feitas na forma de agendamento de exames nas UBS's do município de Manicoré/AM.
 
 ## 🚀 Funcionalidades
 
