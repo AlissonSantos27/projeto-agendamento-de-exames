@@ -14,6 +14,20 @@ Este é um sistema simples de agendamento de exames médicos, desenvolvido com o
 - [Python](https://www.python.org/)
 - [Streamlit](https://streamlit.io/) – para interface web
 
+# ✍️ Autores
+
+- José Alisson da Silva Santos
+- Jhessy Vieira de Oliveira
+- Jaqueline de Paula Cunha
+- Kael Vieira Lindoso
+- José Miguel Coutinho
+- Paulo Vitor Cunha
+- Vagner Bezerra das Neves
+- Joemerson Campos
+- Rodrigo Martins
+- Valdison Ricardo Maquiné
+- Valdison Rodrigo Maquiné
+
 ## 📦 Como executar o projeto
 
 1. **Clone o repositório**
@@ -38,12 +52,3 @@ streamlit run app.py
     - Certifique-se de que você tem o Streamlit instalado. Se necessário, instale com:
 
         pip install streamlit
-
-# ✍️ Autores
-
-- José Alisson da Silva Santos
-- Jhessy Vieira de Oliveira
-- Jaqueline de Paula Cunha
-- Kael lindoso
-- José Miguel
-- Paulo Vitor
